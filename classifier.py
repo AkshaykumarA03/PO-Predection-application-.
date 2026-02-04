@@ -13,13 +13,13 @@ def classify_po(po_description: str, supplier: str = "Not provided"):
             temperature=0.0,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"Desc: {po_description}, Supplier: {supplier}"}
+                {"role": "user", "content": f"Description: {po_description}\nSupplier: {supplier}"}
             ],
             response_format={"type": "json_object"}
         )
         return json.loads(response.choices[0].message.content)
     except Exception as e:
-        return {"error": str(e), "L1": "Error", "L2": "Error", "L3": "Error", "confidence": 0}
+        return {"L1": "Error", "L2": "Error", "L3": "Error", "confidence": 0, "error": str(e)}
 
 def get_chat_response(query: str, history: list):
     messages = [{"role": "system", "content": CHATBOT_PROMPT}]
@@ -28,7 +28,7 @@ def get_chat_response(query: str, history: list):
     messages.append({"role": "user", "content": query})
     
     try:
-        response = client.chat.completions.create(model=MODEL_ID, messages=messages)
+        response = client.chat.completions.create(model=MODEL_ID, temperature=0.5, messages=messages)
         return response.choices[0].message.content
     except Exception as e:
-        return f"Error: {str(e)}"
+        return f"I'm sorry, I encountered an error: {str(e)}"
