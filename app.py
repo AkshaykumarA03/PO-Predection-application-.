@@ -1,4 +1,4 @@
-#import these libraries
+#import these libraries first
 import streamlit as st
 import json
 from classifier import classify_po
@@ -20,3 +20,4 @@ if st.button("Classify"):
             st.error("Invalid model response")
 
             st.text(result)
+
